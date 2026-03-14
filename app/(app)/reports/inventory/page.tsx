@@ -1,15 +1,15 @@
-﻿import { reportCards } from "@/lib/demo-data";
+import { reportCards } from "@/lib/demo-data";
 
 export default function InventoryReportPage() {
   return (
     <div>
       <div className="eyebrow">Reports</div>
-      <h1 style={{ margin: "10px 0 18px", fontSize: 42 }}>Inventory report</h1>
-      <div className="grid-cards" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+      <h1 className="mt-2 mb-5 text-[2.4rem] leading-none sm:text-[2.8rem]">Inventory report</h1>
+      <div className="grid gap-4 xs:grid-cols-2 lg:grid-cols-3">
         {reportCards.map((card) => (
-          <article key={card.title} className="surface" style={{ borderRadius: 24, padding: 22 }}>
-            <h2 style={{ margin: 0 }}>{card.title}</h2>
-            <p style={{ color: "var(--muted)", lineHeight: 1.6 }}>{card.body}</p>
+          <article key={card.title} className="surface p-5">
+            <h2 className="m-0 text-[1.25rem]">{card.title}</h2>
+            <p className="mt-3 text-sm leading-6 text-stone-600">{card.body}</p>
           </article>
         ))}
       </div>

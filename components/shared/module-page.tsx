@@ -39,18 +39,18 @@ export function ModulePage<T extends Record<string, string | number>>({
       <div className="module-summary">
         <div className="module-summary-card">
           <span className="eyebrow">Visible rows</span>
-          <strong>{rows.length}</strong>
-          <div style={{ color: "var(--muted)", marginTop: 6 }}>Enough activity to avoid empty-state demos.</div>
+          <strong className="mt-2 block text-[1.65rem] font-extrabold">{rows.length}</strong>
+          <div className="mt-1.5 text-sm text-stone-600">Enough activity to avoid empty-state demos.</div>
         </div>
         <div className="module-summary-card">
           <span className="eyebrow">Workflow mode</span>
-          <strong>{title}</strong>
-          <div style={{ color: "var(--muted)", marginTop: 6 }}>Optimized for quick operator scanning and action.</div>
+          <strong className="mt-2 block text-[1.65rem] font-extrabold">{title}</strong>
+          <div className="mt-1.5 text-sm text-stone-600">Optimized for quick operator scanning and action.</div>
         </div>
         <div className="module-summary-card">
           <span className="eyebrow">Demo posture</span>
-          <strong>Judge-ready</strong>
-          <div style={{ color: "var(--muted)", marginTop: 6 }}>Populated, responsive, and aligned to the blueprint.</div>
+          <strong className="mt-2 block text-[1.65rem] font-extrabold">Judge-ready</strong>
+          <div className="mt-1.5 text-sm text-stone-600">Populated, responsive, and aligned to the blueprint.</div>
         </div>
       </div>
       <div className="dashboard-grid">
@@ -60,7 +60,7 @@ export function ModulePage<T extends Record<string, string | number>>({
         <SectionCard title="Operator notes" subtitle="What judges should notice in this screen.">
           <div className="note-stack">
             {notes.map((note) => (
-              <div key={note} className="note-card">{note}</div>
+              <div key={note} className="note-card text-sm leading-6 text-stone-700">{note}</div>
             ))}
           </div>
         </SectionCard>

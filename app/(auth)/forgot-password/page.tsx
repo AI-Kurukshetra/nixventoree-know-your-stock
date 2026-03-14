@@ -1,13 +1,13 @@
-﻿export default function ForgotPasswordPage() {
+import { PlaceholderPage } from "@/components/shared/placeholder-page";
+
+export default function ForgotPasswordPage() {
   return (
-    <main style={{ padding: 24, maxWidth: 560, margin: "0 auto" }}>
-      <div className="surface" style={{ borderRadius: 28, padding: 28 }}>
-        <div className="eyebrow">Auth</div>
-        <h1 style={{ margin: "12px 0", fontSize: 40 }}>Reset password</h1>
-        <p style={{ color: "var(--muted)" }}>
-          Send a Supabase password reset link from here once auth flows are connected.
-        </p>
-      </div>
+    <main className="auth-shell">
+      <PlaceholderPage
+        eyebrow="Auth"
+        title="Reset password"
+        description="Send a Supabase password reset link from here once auth flows are connected."
+      />
     </main>
   );
 }

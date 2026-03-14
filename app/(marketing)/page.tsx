@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const highlights = [
   "Multi-location inventory visibility",
   "Reorder recommendations that close the buying loop",
@@ -11,24 +13,24 @@ export default function MarketingHomePage() {
       <section className="marketing-hero">
         <div className="marketing-grid">
           <div>
-            <div className="eyebrow" style={{ color: "#95f4e0" }}>Nixventoree</div>
-            <h1 style={{ fontSize: 76, lineHeight: 0.9, margin: "14px 0 18px", maxWidth: 760 }}>
+            <div className="eyebrow text-emerald-200">Nixventoree</div>
+            <h1 className="mt-3 max-w-[760px] text-[3.9rem] leading-[0.9] xs:text-[4.4rem] sm:text-[4.8rem] md:text-[5.2rem]">
               Know your stock. Control your orders.
             </h1>
-            <p style={{ color: "rgba(247, 245, 240, 0.78)", maxWidth: 720, fontSize: 18, lineHeight: 1.7 }}>
-              Nixventoree combines inventory, purchasing, fulfillment, and reporting into a visually rich, mobile-responsive product that feels populated on the first click.
+            <p className="mt-4 max-w-[720px] text-[1rem] leading-8 text-stone-50/80 sm:text-[1.1rem]">
+              Nixventoree combines inventory, purchasing, fulfillment, and reporting into a visually rich, responsive product that feels populated on the first click.
             </p>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
-              <a className="button-primary" href="/dashboard">Open demo workspace</a>
-              <a className="button-secondary" href="/pricing">View pricing</a>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link className="button-primary" href="/dashboard">Open demo workspace</Link>
+              <Link className="button-secondary" href="/pricing">View pricing</Link>
             </div>
           </div>
           <div className="showcase-grid">
             {highlights.map((item, index) => (
               <div key={item} className="showcase-card">
-                <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: index % 2 === 0 ? "#a6f7e4" : "#ffd2b1" }}>Capability</div>
-                <strong style={{ display: "block", marginTop: 12, fontSize: 24 }}>{item}</strong>
-                <p style={{ color: "rgba(247, 245, 240, 0.72)", lineHeight: 1.6, marginBottom: 0 }}>
+                <div className={index % 2 === 0 ? "text-[12px] uppercase tracking-[0.12em] text-emerald-100" : "text-[12px] uppercase tracking-[0.12em] text-orange-100"}>Capability</div>
+                <strong className="mt-3 block text-2xl">{item}</strong>
+                <p className="mt-2 text-sm leading-6 text-stone-50/75">
                   Built for a convincing hackathon walkthrough instead of a blank admin shell.
                 </p>
               </div>

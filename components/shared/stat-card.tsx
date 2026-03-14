@@ -4,16 +4,15 @@ import { cn } from "@/lib/utils/cn";
 export function StatCard({ label, value, delta, trend }: Kpi) {
   return (
     <article className="surface stat-card">
-      <div style={{ color: "var(--muted)", fontSize: 14, position: "relative", zIndex: 1 }}>{label}</div>
-      <div style={{ fontSize: 38, fontWeight: 800, marginTop: 16, position: "relative", zIndex: 1 }}>{value}</div>
+      <div className="relative z-10 text-sm text-stone-600">{label}</div>
+      <div className="relative z-10 mt-4 text-[2.4rem] font-extrabold leading-none">{value}</div>
       <div
         className={cn(
-          "badge",
+          "badge relative z-10 mt-4",
           trend === "up" && "badge-success",
           trend === "down" && "badge-danger",
           trend === "flat" && "badge-neutral"
         )}
-        style={{ marginTop: 16, position: "relative", zIndex: 1 }}
       >
         {delta}
       </div>

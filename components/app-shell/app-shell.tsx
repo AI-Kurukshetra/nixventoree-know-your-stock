@@ -37,21 +37,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="app-shell">
       <aside className="app-sidebar">
         <div className="sidebar-brand">
-          <div className="eyebrow" style={{ color: "#95f4e0" }}>Nixventoree</div>
-          <div style={{ fontSize: 34, fontWeight: 800, marginTop: 8, lineHeight: 1 }}>Know your stock. Control your orders.</div>
-          <p style={{ color: "rgba(248, 250, 248, 0.76)", lineHeight: 1.6, marginBottom: 0 }}>
-            A demo tenant designed to feel like a live logistics control room, not an empty admin template.
+          <div className="eyebrow text-emerald-200">Nixventoree</div>
+          <div className="mt-2 text-[2rem] font-black leading-none">Know your stock. Control your orders.</div>
+          <p className="mt-3 mb-0 leading-7 text-stone-100/75">
+            A judge-facing demo workspace designed to feel like a live logistics control room, not an empty admin template.
           </p>
           <div className="sidebar-meta">
             <div className="sidebar-meta-card">
-              <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: "#b4ddd6" }}>Live pulse</div>
-              <strong style={{ display: "block", marginTop: 8, fontSize: 24 }}>128 orders</strong>
-              <div style={{ color: "rgba(248, 250, 248, 0.7)", marginTop: 6 }}>queued across 3 locations today</div>
+              <div className="text-[12px] uppercase tracking-[0.12em] text-emerald-100/85">Live pulse</div>
+              <strong className="mt-2 block text-2xl">128 orders</strong>
+              <div className="mt-1.5 text-sm text-stone-100/70">queued across 3 locations today</div>
             </div>
             <div className="sidebar-meta-card">
-              <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: "#ffd6b8" }}>Buyer pressure</div>
-              <strong style={{ display: "block", marginTop: 8, fontSize: 24 }}>18 low SKUs</strong>
-              <div style={{ color: "rgba(248, 250, 248, 0.7)", marginTop: 6 }}>6 need immediate replenishment</div>
+              <div className="text-[12px] uppercase tracking-[0.12em] text-orange-100/85">Buyer pressure</div>
+              <strong className="mt-2 block text-2xl">18 low SKUs</strong>
+              <div className="mt-1.5 text-sm text-stone-100/70">6 need immediate replenishment</div>
             </div>
           </div>
         </div>
@@ -71,7 +71,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </nav>
       </aside>
       <main className="app-content">
-        <div className="app-content-inner">{children}</div>
+        <div className="page-frame">{children}</div>
       </main>
     </div>
   );

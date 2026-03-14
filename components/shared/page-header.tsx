@@ -10,8 +10,8 @@ export function PageHeader({ eyebrow, title, description, actions }: PageHeaderP
     <div className="page-header">
       <div>
         {eyebrow ? <div className="eyebrow">{eyebrow}</div> : null}
-        <h1 style={{ margin: "8px 0 10px", fontSize: 52, lineHeight: 0.95 }}>{title}</h1>
-        <p style={{ margin: 0, color: "var(--muted)", maxWidth: 760, lineHeight: 1.6 }}>{description}</p>
+        <h1 className="mt-2 mb-2 text-[2.75rem] leading-[0.95] xs:text-[3rem] sm:text-[3.3rem]">{title}</h1>
+        <p className="max-w-[760px] text-[0.95rem] leading-7 text-stone-600 sm:text-base">{description}</p>
       </div>
       {actions ? <div className="page-header-actions">{actions}</div> : null}
     </div>

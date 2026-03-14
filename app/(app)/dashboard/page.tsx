@@ -23,47 +23,47 @@ export default function DashboardPage() {
 
       <section className="hero-panel">
         <div className="hero-grid">
-          <div style={{ position: "relative", zIndex: 1 }}>
-            <div className="eyebrow" style={{ color: "#9bf4e0" }}>Today&apos;s story</div>
-            <h2 style={{ fontSize: 62, lineHeight: 0.92, margin: "10px 0 14px", maxWidth: 700 }}>
+          <div className="relative z-10">
+            <div className="eyebrow text-emerald-200">Today&apos;s story</div>
+            <h2 className="mt-2 max-w-[700px] text-[3.15rem] leading-[0.92] xs:text-[3.6rem] sm:text-[4rem]">
               Your supply chain is under control, but 6 SKUs need immediate buying action.
             </h2>
-            <p style={{ color: "rgba(247, 245, 240, 0.78)", fontSize: 17, lineHeight: 1.7, maxWidth: 700 }}>
+            <p className="mt-4 max-w-[700px] text-[1rem] leading-7 text-stone-50/80 sm:text-[1.05rem]">
               Nixventoree turns inventory, purchasing, and fulfillment into one clean operating surface so judges can immediately see the business value of the workflow.
             </p>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 20 }}>
+            <div className="mt-5 flex flex-wrap gap-3">
               <div className="button-ghost"><RadioTower size={16} /> Realtime inventory visibility</div>
               <div className="button-ghost"><TriangleAlert size={16} /> 18 low-stock alerts active</div>
               <div className="button-ghost"><Sparkles size={16} /> Demo workspace pre-populated</div>
             </div>
           </div>
-          <div style={{ position: "relative", zIndex: 1, display: "grid", gap: 14 }}>
+          <div className="relative z-10 grid gap-3.5">
             <div className="metric-strip">
               <div className="metric-chip">
-                <span style={{ color: "rgba(247, 245, 240, 0.72)", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" }}>Fulfillment</span>
-                <strong>94.7%</strong>
-                <span style={{ color: "rgba(247, 245, 240, 0.72)" }}>same-day SLA hit rate</span>
+                <span className="text-[12px] uppercase tracking-[0.12em] text-stone-50/70">Fulfillment</span>
+                <strong className="mt-2 block text-[1.65rem]">94.7%</strong>
+                <span className="text-sm text-stone-50/70">same-day SLA hit rate</span>
               </div>
               <div className="metric-chip">
-                <span style={{ color: "rgba(247, 245, 240, 0.72)", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" }}>Inbound</span>
-                <strong>7</strong>
-                <span style={{ color: "rgba(247, 245, 240, 0.72)" }}>POs actively moving</span>
+                <span className="text-[12px] uppercase tracking-[0.12em] text-stone-50/70">Inbound</span>
+                <strong className="mt-2 block text-[1.65rem]">7</strong>
+                <span className="text-sm text-stone-50/70">POs actively moving</span>
               </div>
               <div className="metric-chip">
-                <span style={{ color: "rgba(247, 245, 240, 0.72)", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em" }}>Returns</span>
-                <strong>3</strong>
-                <span style={{ color: "rgba(247, 245, 240, 0.72)" }}>cases awaiting resolution</span>
+                <span className="text-[12px] uppercase tracking-[0.12em] text-stone-50/70">Returns</span>
+                <strong className="mt-2 block text-[1.65rem]">3</strong>
+                <span className="text-sm text-stone-50/70">cases awaiting resolution</span>
               </div>
             </div>
-            <div style={{ borderRadius: 24, padding: 18, background: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255, 255, 255, 0.1)" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}>
+            <div className="rounded-[24px] border border-white/10 bg-white/8 p-[18px]">
+              <div className="flex items-center justify-between gap-3">
                 <div>
-                  <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.12em", color: "#bfece2" }}>Judge hook</div>
-                  <strong style={{ display: "block", marginTop: 8, fontSize: 28 }}>The app feels busy on first load</strong>
+                  <div className="text-[12px] uppercase tracking-[0.12em] text-emerald-100">Judge hook</div>
+                  <strong className="mt-2 block text-[1.75rem]">The app feels busy on first load</strong>
                 </div>
                 <ArrowUpRight size={24} />
               </div>
-              <p style={{ margin: "12px 0 0", color: "rgba(247, 245, 240, 0.76)", lineHeight: 1.6 }}>
+              <p className="mt-3 leading-7 text-stone-50/75">
                 Every key page ships with realistic rows, stock signals, purchase orders, and movement history so the product reads like a live system.
               </p>
             </div>
@@ -71,7 +71,7 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <div className="grid-cards" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", marginTop: 18 }}>
+      <div className="mt-5 grid gap-4 xs:grid-cols-2 lg:grid-cols-4">
         {kpis.map((item) => (
           <StatCard key={item.label} {...item} />
         ))}
@@ -94,8 +94,8 @@ export default function DashboardPage() {
           <div className="note-stack">
             {reportCards.map((card) => (
               <div key={card.title} className="note-card">
-                <h3 style={{ margin: 0 }}>{card.title}</h3>
-                <p style={{ margin: "8px 0 0", color: "var(--muted)", lineHeight: 1.6 }}>{card.body}</p>
+                <h3 className="m-0 text-[1.15rem]">{card.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{card.body}</p>
               </div>
             ))}
           </div>

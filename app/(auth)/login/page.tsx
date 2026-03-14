@@ -1,22 +1,14 @@
-﻿import { PageHeader } from "@/components/shared/page-header";
-
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  borderRadius: 16,
-  border: "1px solid var(--border)",
-  padding: "14px 16px",
-  background: "#fff"
-};
+import { PageHeader } from "@/components/shared/page-header";
 
 export default function LoginPage() {
   return (
-    <main style={{ padding: 24, maxWidth: 640, margin: "0 auto" }}>
-      <div className="surface" style={{ borderRadius: 28, padding: 28 }}>
+    <main className="auth-shell">
+      <div className="auth-card">
         <PageHeader eyebrow="Auth" title="Sign in" description="Wire this form to Supabase Auth email magic links or password auth." />
-        <div style={{ display: "grid", gap: 12 }}>
-          <input placeholder="Work email" style={inputStyle} />
-          <input placeholder="Password" type="password" style={inputStyle} />
-          <button className="button-primary" style={{ border: 0 }}>Sign in</button>
+        <div className="auth-form">
+          <input className="auth-input" placeholder="Work email" />
+          <input className="auth-input" placeholder="Password" type="password" />
+          <button className="button-primary" type="button">Sign in</button>
         </div>
       </div>
     </main>
