@@ -1,5 +1,5 @@
-﻿insert into public.organizations (id, name, slug, plan, default_currency, timezone)
-values ('00000000-0000-0000-0000-000000000001', 'Northstar Supply Co', 'northstar-supply', 'growth', 'USD', 'America/New_York')
+insert into public.organizations (id, name, slug, plan, default_currency, timezone)
+values ('00000000-0000-0000-0000-000000000001', 'Nixventoree Demo Co', 'nixventoree-demo', 'growth', 'USD', 'America/New_York')
 on conflict (id) do nothing;
 
 insert into public.roles (id, organization_id, name, description)

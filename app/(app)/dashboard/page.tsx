@@ -29,7 +29,7 @@ export default function DashboardPage() {
               Your supply chain is under control, but 6 SKUs need immediate buying action.
             </h2>
             <p style={{ color: "rgba(247, 245, 240, 0.78)", fontSize: 17, lineHeight: 1.7, maxWidth: 700 }}>
-              Northstar is processing same-day orders at strong pick accuracy while the purchasing queue surfaces the next bottlenecks before they hit the storefront.
+              Nixventoree turns inventory, purchasing, and fulfillment into one clean operating surface so judges can immediately see the business value of the workflow.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 20 }}>
               <div className="button-ghost"><RadioTower size={16} /> Realtime inventory visibility</div>

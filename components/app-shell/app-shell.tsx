@@ -37,8 +37,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="app-shell">
       <aside className="app-sidebar">
         <div className="sidebar-brand">
-          <div className="eyebrow" style={{ color: "#95f4e0" }}>Northstar Supply Co</div>
-          <div style={{ fontSize: 34, fontWeight: 800, marginTop: 8, lineHeight: 1 }}>Ops Console</div>
+          <div className="eyebrow" style={{ color: "#95f4e0" }}>Nixventoree</div>
+          <div style={{ fontSize: 34, fontWeight: 800, marginTop: 8, lineHeight: 1 }}>Know your stock. Control your orders.</div>
           <p style={{ color: "rgba(248, 250, 248, 0.76)", lineHeight: 1.6, marginBottom: 0 }}>
             A demo tenant designed to feel like a live logistics control room, not an empty admin template.
           </p>

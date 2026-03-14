@@ -11,12 +11,12 @@ export default function MarketingHomePage() {
       <section className="marketing-hero">
         <div className="marketing-grid">
           <div>
-            <div className="eyebrow" style={{ color: "#95f4e0" }}>Smart inventory and order management</div>
+            <div className="eyebrow" style={{ color: "#95f4e0" }}>Nixventoree</div>
             <h1 style={{ fontSize: 76, lineHeight: 0.9, margin: "14px 0 18px", maxWidth: 760 }}>
-              A logistics control room designed to impress in a five-minute demo.
+              Know your stock. Control your orders.
             </h1>
             <p style={{ color: "rgba(247, 245, 240, 0.78)", maxWidth: 720, fontSize: 18, lineHeight: 1.7 }}>
-              Northstar combines inventory, purchasing, fulfillment, and reporting into a visually rich, mobile-responsive product that feels populated on the first click.
+              Nixventoree combines inventory, purchasing, fulfillment, and reporting into a visually rich, mobile-responsive product that feels populated on the first click.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
               <a className="button-primary" href="/dashboard">Open demo workspace</a>
