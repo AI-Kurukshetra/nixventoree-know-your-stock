@@ -1,7 +1,9 @@
-﻿import { ModulePage } from "@/components/shared/module-page";
-import { products } from "@/lib/demo-data";
+import { ModulePage } from "@/components/shared/module-page";
+import { getProductsData } from "@/lib/repositories/ops";
 
-export default function InventoryPage() {
+export default async function InventoryPage() {
+  const products = await getProductsData();
+
   return (
     <ModulePage
       eyebrow="Stock"

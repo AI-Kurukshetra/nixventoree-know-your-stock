@@ -1,7 +1,9 @@
-﻿import { ModulePage } from "@/components/shared/module-page";
-import { returns } from "@/lib/demo-data";
+import { ModulePage } from "@/components/shared/module-page";
+import { getReturnsData } from "@/lib/repositories/ops";
 
-export default function ReturnsPage() {
+export default async function ReturnsPage() {
+  const returns = await getReturnsData();
+
   return (
     <ModulePage
       eyebrow="After-sales"

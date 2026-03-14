@@ -1,12 +1,61 @@
 import Link from "next/link";
-import { ArrowUpRight, RadioTower, Sparkles, TriangleAlert } from "lucide-react";
+import { ArrowUpRight, Building2, RadioTower, Sparkles, TriangleAlert, UserRound } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { SectionCard } from "@/components/shared/section-card";
 import { SimpleTable } from "@/components/shared/simple-table";
 import { StatCard } from "@/components/shared/stat-card";
-import { kpis, lowStock, movements, orders, purchaseOrders, reportCards } from "@/lib/demo-data";
+import { hasPublicSupabaseEnv } from "@/lib/db/env";
+import { getDashboardData } from "@/lib/repositories/ops";
+import { createClient } from "@/lib/supabase/server";
 
-export default function DashboardPage() {
+async function getViewerContext() {
+  if (!hasPublicSupabaseEnv()) {
+    return null;
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return null;
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, organization_id, role_id")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (!profile) {
+    return {
+      name: user.email?.split("@")[0] ?? "Operator",
+      role: "Authenticated user",
+      organization: "Nixventoree workspace"
+    };
+  }
+
+  const [organizationResult, roleResult] = await Promise.all([
+    profile.organization_id
+      ? supabase.from("organizations").select("name").eq("id", profile.organization_id).maybeSingle()
+      : Promise.resolve({ data: null }),
+    profile.role_id ? supabase.from("roles").select("name").eq("id", profile.role_id).maybeSingle() : Promise.resolve({ data: null })
+  ]);
+
+  return {
+    name: profile.full_name || user.email?.split("@")[0] || "Operator",
+    role: roleResult.data?.name ?? "Authenticated user",
+    organization: organizationResult.data?.name ?? "Nixventoree workspace"
+  };
+}
+
+export default async function DashboardPage() {
+  const [{ kpis, lowStock, movements, orders, purchaseOrders, reportCards }, viewer] = await Promise.all([
+    getDashboardData(),
+    getViewerContext()
+  ]);
+
   return (
     <>
       <PageHeader
@@ -21,19 +70,35 @@ export default function DashboardPage() {
         }
       />
 
+      {viewer ? (
+        <div className="mb-5 flex flex-wrap gap-3">
+          <div className="inline-flex items-center gap-2 rounded-full border border-stone-900/10 bg-white/80 px-4 py-2 text-sm font-semibold text-stone-800">
+            <UserRound size={15} />
+            {viewer.name}
+          </div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-stone-900/10 bg-white/80 px-4 py-2 text-sm font-semibold text-stone-800">
+            <Building2 size={15} />
+            {viewer.organization}
+          </div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-900/10 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-900">
+            {viewer.role}
+          </div>
+        </div>
+      ) : null}
+
       <section className="hero-panel">
         <div className="hero-grid">
           <div className="relative z-10">
             <div className="eyebrow text-emerald-200">Today&apos;s story</div>
             <h2 className="mt-2 max-w-[700px] text-[3.15rem] leading-[0.92] xs:text-[3.6rem] sm:text-[4rem]">
-              Your supply chain is under control, but 6 SKUs need immediate buying action.
+              Your supply chain is under control, but {lowStock.length} SKUs need immediate buying action.
             </h2>
             <p className="mt-4 max-w-[700px] text-[1rem] leading-7 text-stone-50/80 sm:text-[1.05rem]">
               Nixventoree turns inventory, purchasing, and fulfillment into one clean operating surface so judges can immediately see the business value of the workflow.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <div className="button-ghost"><RadioTower size={16} /> Realtime inventory visibility</div>
-              <div className="button-ghost"><TriangleAlert size={16} /> 18 low-stock alerts active</div>
+              <div className="button-ghost"><TriangleAlert size={16} /> {lowStock.length} low-stock alerts active</div>
               <div className="button-ghost"><Sparkles size={16} /> Demo workspace pre-populated</div>
             </div>
           </div>
@@ -41,18 +106,18 @@ export default function DashboardPage() {
             <div className="metric-strip">
               <div className="metric-chip">
                 <span className="text-[12px] uppercase tracking-[0.12em] text-stone-50/70">Fulfillment</span>
-                <strong className="mt-2 block text-[1.65rem]">94.7%</strong>
-                <span className="text-sm text-stone-50/70">same-day SLA hit rate</span>
+                <strong className="mt-2 block text-[1.65rem]">{orders.length}</strong>
+                <span className="text-sm text-stone-50/70">tracked orders</span>
               </div>
               <div className="metric-chip">
                 <span className="text-[12px] uppercase tracking-[0.12em] text-stone-50/70">Inbound</span>
-                <strong className="mt-2 block text-[1.65rem]">7</strong>
+                <strong className="mt-2 block text-[1.65rem]">{purchaseOrders.length}</strong>
                 <span className="text-sm text-stone-50/70">POs actively moving</span>
               </div>
               <div className="metric-chip">
                 <span className="text-[12px] uppercase tracking-[0.12em] text-stone-50/70">Returns</span>
-                <strong className="mt-2 block text-[1.65rem]">3</strong>
-                <span className="text-sm text-stone-50/70">cases awaiting resolution</span>
+                <strong className="mt-2 block text-[1.65rem]">{movements.length}</strong>
+                <span className="text-sm text-stone-50/70">recent ledger events</span>
               </div>
             </div>
             <div className="rounded-[24px] border border-white/10 bg-white/8 p-[18px]">

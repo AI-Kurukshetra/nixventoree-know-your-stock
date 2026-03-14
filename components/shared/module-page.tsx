@@ -1,3 +1,5 @@
+import Link from "next/link";
+import type { Route } from "next";
 import { PageHeader } from "@/components/shared/page-header";
 import { SectionCard } from "@/components/shared/section-card";
 import { SimpleTable } from "@/components/shared/simple-table";
@@ -7,7 +9,9 @@ type ModulePageProps<T extends Record<string, string | number>> = {
   title: string;
   description: string;
   primaryAction: string;
+  primaryActionHref?: Route;
   secondaryAction?: string;
+  secondaryActionHref?: Route;
   rows: T[];
   columns: Array<{ key: keyof T; label: string; isStatus?: boolean }>;
   notes: string[];
@@ -18,7 +22,9 @@ export function ModulePage<T extends Record<string, string | number>>({
   title,
   description,
   primaryAction,
+  primaryActionHref,
   secondaryAction,
+  secondaryActionHref,
   rows,
   columns,
   notes
@@ -31,8 +37,14 @@ export function ModulePage<T extends Record<string, string | number>>({
         description={description}
         actions={
           <>
-            {secondaryAction ? <button className="button-secondary" type="button">{secondaryAction}</button> : null}
-            <button className="button-primary" type="button">{primaryAction}</button>
+            {secondaryAction
+              ? secondaryActionHref
+                ? <Link className="button-secondary" href={secondaryActionHref}>{secondaryAction}</Link>
+                : <button className="button-secondary" type="button">{secondaryAction}</button>
+              : null}
+            {primaryActionHref
+              ? <Link className="button-primary" href={primaryActionHref}>{primaryAction}</Link>
+              : <button className="button-primary" type="button">{primaryAction}</button>}
           </>
         }
       />

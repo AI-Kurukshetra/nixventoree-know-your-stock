@@ -1,6 +1,8 @@
-﻿import { NextResponse } from "next/server";
-import { purchaseOrders } from "@/lib/demo-data";
+import { NextResponse } from "next/server";
+import { getPurchaseOrdersData } from "@/lib/repositories/ops";
 
 export async function GET() {
-  return NextResponse.json({ data: purchaseOrders });
+  const data = await getPurchaseOrdersData();
+
+  return NextResponse.json({ data });
 }

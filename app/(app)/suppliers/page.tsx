@@ -1,7 +1,9 @@
-﻿import { ModulePage } from "@/components/shared/module-page";
-import { suppliers } from "@/lib/demo-data";
+import { ModulePage } from "@/components/shared/module-page";
+import { getSuppliersData } from "@/lib/repositories/ops";
 
-export default function SuppliersPage() {
+export default async function SuppliersPage() {
+  const suppliers = await getSuppliersData();
+
   return (
     <ModulePage
       eyebrow="Purchasing"

@@ -1,6 +1,8 @@
-﻿import { NextResponse } from "next/server";
-import { kpis, lowStock, reportCards } from "@/lib/demo-data";
+import { NextResponse } from "next/server";
+import { getDashboardData } from "@/lib/repositories/ops";
 
 export async function GET() {
-  return NextResponse.json({ kpis, lowStock, cards: reportCards });
+  const data = await getDashboardData();
+
+  return NextResponse.json(data);
 }

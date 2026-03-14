@@ -1,7 +1,9 @@
-﻿import { ModulePage } from "@/components/shared/module-page";
-import { orders } from "@/lib/demo-data";
+import { ModulePage } from "@/components/shared/module-page";
+import { getOrdersData } from "@/lib/repositories/ops";
 
-export default function OrdersPage() {
+export default async function OrdersPage() {
+  const orders = await getOrdersData();
+
   return (
     <ModulePage
       eyebrow="Fulfillment"

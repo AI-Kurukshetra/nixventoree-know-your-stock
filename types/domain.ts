@@ -1,4 +1,4 @@
-﻿export type Trend = "up" | "down" | "flat";
+export type Trend = "up" | "down" | "flat";
 
 export type Kpi = {
   label: string;
@@ -15,7 +15,7 @@ export type Product = {
   warehouse: string;
   available: number;
   reorderPoint: number;
-  status: "Healthy" | "Low stock" | "Incoming";
+  status: "Healthy" | "Low stock" | "Incoming" | "Not stocked";
 };
 
 export type Order = {
@@ -68,3 +68,4 @@ export type Movement = {
   quantity: string;
   actor: string;
 };
+

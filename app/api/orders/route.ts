@@ -1,8 +1,10 @@
-﻿import { NextResponse } from "next/server";
-import { orders } from "@/lib/demo-data";
+import { NextResponse } from "next/server";
+import { getOrdersData } from "@/lib/repositories/ops";
 
 export async function GET() {
-  return NextResponse.json({ data: orders });
+  const data = await getOrdersData();
+
+  return NextResponse.json({ data });
 }
 
 export async function POST() {

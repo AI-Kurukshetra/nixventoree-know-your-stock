@@ -4,18 +4,30 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Boxes,
+  Building2,
   ClipboardList,
   Factory,
   LayoutDashboard,
+  LogOut,
+  Mail,
   Package,
   Receipt,
   RotateCcw,
   Settings,
   ShoppingCart,
-  Truck
+  Truck,
+  UserRound
 } from "lucide-react";
-import { cn } from "@/lib/utils/cn";
+import { signOutAction } from "@/app/(auth)/actions";
 import { navigation } from "@/lib/constants/navigation";
+import { cn } from "@/lib/utils/cn";
+
+export type SidebarUser = {
+  name: string;
+  email: string;
+  role: string;
+  organization: string;
+};
 
 const iconMap = {
   "/dashboard": LayoutDashboard,
@@ -30,7 +42,20 @@ const iconMap = {
   "/settings/organization": Settings
 } as const;
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+function getInitials(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+
+  if (parts.length === 0) {
+    return "NX";
+  }
+
+  return parts
+    .slice(0, 2)
+    .map((part) => part.charAt(0).toUpperCase())
+    .join("");
+}
+
+export function AppShell({ children, user }: { children: React.ReactNode; user: SidebarUser | null }) {
   const pathname = usePathname();
 
   return (
@@ -55,6 +80,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           </div>
         </div>
+
+        {user ? (
+          <div className="sidebar-user-card">
+            <div className="sidebar-user-avatar">{getInitials(user.name)}</div>
+            <div className="min-w-0 flex-1">
+              <div className="sidebar-user-name">{user.name}</div>
+              <div className="sidebar-user-meta"><UserRound size={14} /> {user.role}</div>
+              <div className="sidebar-user-meta"><Building2 size={14} /> {user.organization}</div>
+              <div className="sidebar-user-meta truncate"><Mail size={14} /> {user.email}</div>
+            </div>
+          </div>
+        ) : null}
+
         <nav className="nav-list">
           {navigation.map((item) => {
             const Icon = iconMap[item.href as keyof typeof iconMap];
@@ -69,6 +107,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             );
           })}
         </nav>
+        <div className="mt-6">
+          <form action={signOutAction}>
+            <button className="nav-link w-full" type="submit">
+              <LogOut size={16} />
+              <span>Logout</span>
+              <span className="nav-dot" />
+            </button>
+          </form>
+        </div>
       </aside>
       <main className="app-content">
         <div className="page-frame">{children}</div>

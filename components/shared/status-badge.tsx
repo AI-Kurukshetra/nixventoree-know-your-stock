@@ -1,8 +1,9 @@
-﻿import { cn } from "@/lib/utils/cn";
+import { cn } from "@/lib/utils/cn";
 
 const badgeMap: Record<string, string> = {
   Healthy: "badge-success",
   Incoming: "badge-warning",
+  "Not stocked": "badge-neutral",
   "Low stock": "badge-danger",
   Pending: "badge-warning",
   Picking: "badge-warning",

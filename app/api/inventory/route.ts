@@ -1,6 +1,9 @@
-﻿import { NextResponse } from "next/server";
-import { lowStock, movements, products } from "@/lib/demo-data";
+import { NextResponse } from "next/server";
+import { getMovementsData, getProductsData } from "@/lib/repositories/ops";
 
 export async function GET() {
-  return NextResponse.json({ balances: products, lowStock, movements });
+  const [balances, movements] = await Promise.all([getProductsData(), getMovementsData()]);
+  const lowStock = balances.filter((item) => item.available <= item.reorderPoint);
+
+  return NextResponse.json({ balances, lowStock, movements });
 }

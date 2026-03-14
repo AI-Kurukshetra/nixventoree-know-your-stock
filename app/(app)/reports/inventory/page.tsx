@@ -1,6 +1,8 @@
-import { reportCards } from "@/lib/demo-data";
+import { getDashboardData } from "@/lib/repositories/ops";
 
-export default function InventoryReportPage() {
+export default async function InventoryReportPage() {
+  const { reportCards } = await getDashboardData();
+
   return (
     <div>
       <div className="eyebrow">Reports</div>

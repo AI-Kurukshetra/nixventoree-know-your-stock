@@ -106,22 +106,21 @@
   }
 
   .app-sidebar {
-    @apply relative overflow-hidden border-b border-white/10 px-5 py-7 text-stone-50 xl:sticky xl:top-0 xl:h-screen xl:border-b-0 xl:border-r;
+    @apply relative overflow-hidden border-b border-white/10 px-5 py-7 text-stone-50 xl:sticky xl:top-0 xl:h-screen xl:overflow-y-auto xl:border-b-0 xl:border-r;
     background:
       radial-gradient(circle at top left, rgba(89, 214, 200, 0.18), transparent 26%),
       radial-gradient(circle at bottom right, rgba(221, 122, 49, 0.18), transparent 28%),
       linear-gradient(180deg, #10201c 0%, #0d1816 100%);
   }
 
-  .app-sidebar::after {
-    content: "";
-    position: absolute;
-    inset: auto -40% -18% auto;
-    width: 280px;
-    height: 280px;
+
+  .app-sidebar::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .app-sidebar::-webkit-scrollbar-thumb {
     border-radius: 999px;
-    background: radial-gradient(circle, rgba(221, 122, 49, 0.24) 0%, rgba(221, 122, 49, 0) 70%);
-    pointer-events: none;
+    background: rgba(255, 255, 255, 0.16);
   }
 
   .app-content {
@@ -138,6 +137,22 @@
 
   .sidebar-meta-card {
     @apply rounded-[18px] border border-white/10 bg-white/6 p-4;
+  }
+
+  .sidebar-user-card {
+    @apply mt-5 flex items-start gap-3 rounded-[22px] border border-white/12 bg-white/8 p-4 backdrop-blur-xl;
+  }
+
+  .sidebar-user-avatar {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-300 to-orange-300 text-sm font-black text-stone-950;
+  }
+
+  .sidebar-user-name {
+    @apply truncate text-base font-bold text-white;
+  }
+
+  .sidebar-user-meta {
+    @apply mt-1 flex items-center gap-2 text-sm text-stone-100/72;
   }
 
   .nav-list {

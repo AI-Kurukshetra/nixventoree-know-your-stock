@@ -1,6 +1,7 @@
-﻿import { createServerClient } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { getPublicSupabaseEnv } from "@/lib/db/env";
+import { getPublicSupabaseEnv, hasPublicSupabaseEnv } from "@/lib/db/env";
+import { isAuthPath, isProtectedPath } from "@/lib/auth/paths";
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next({
@@ -9,13 +10,13 @@ export async function middleware(request: NextRequest) {
     }
   });
 
-  const { url, anonKey } = getPublicSupabaseEnv();
-
-  if (!url || !anonKey) {
+  if (!hasPublicSupabaseEnv()) {
     return response;
   }
 
-  createServerClient(url, anonKey, {
+  const { url, anonKey } = getPublicSupabaseEnv();
+
+  const supabase = createServerClient(url, anonKey, {
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -27,6 +28,26 @@ export async function middleware(request: NextRequest) {
       }
     }
   });
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  const pathname = request.nextUrl.pathname;
+
+  if (!user && isProtectedPath(pathname)) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/login";
+    redirectUrl.searchParams.set("next", pathname);
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  if (user && isAuthPath(pathname)) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = "/dashboard";
+    redirectUrl.search = "";
+    return NextResponse.redirect(redirectUrl);
+  }
 
   return response;
 }

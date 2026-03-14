@@ -1,7 +1,9 @@
-﻿import { ModulePage } from "@/components/shared/module-page";
-import { warehouses } from "@/lib/demo-data";
+import { ModulePage } from "@/components/shared/module-page";
+import { getWarehousesData } from "@/lib/repositories/ops";
 
-export default function WarehousesPage() {
+export default async function WarehousesPage() {
+  const warehouses = await getWarehousesData();
+
   return (
     <ModulePage
       eyebrow="Network"

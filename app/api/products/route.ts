@@ -1,10 +1,14 @@
-﻿import { NextResponse } from "next/server";
-import { products } from "@/lib/demo-data";
+import { NextResponse } from "next/server";
+import { getProductsData } from "@/lib/repositories/ops";
 
 export async function GET() {
-  return NextResponse.json({ data: products });
+  const data = await getProductsData();
+  return NextResponse.json({ data });
 }
 
 export async function POST() {
-  return NextResponse.json({ error: "Product creation is not wired yet." }, { status: 501 });
+  return NextResponse.json(
+    { error: "Use the authenticated server action on /products/new for product creation." },
+    { status: 405 }
+  );
 }
