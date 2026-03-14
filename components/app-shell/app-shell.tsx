@@ -9,7 +9,6 @@ import {
   ClipboardList,
   Factory,
   LayoutDashboard,
-  LogOut,
   Mail,
   Package,
   Receipt,
@@ -20,7 +19,7 @@ import {
   UserRound,
   Users
 } from "lucide-react";
-import { signOutAction } from "@/app/(auth)/actions";
+import { LogoutButton } from "@/components/auth/logout-button";
 import { navigation } from "@/lib/constants/navigation";
 import { cn } from "@/lib/utils/cn";
 
@@ -29,6 +28,13 @@ export type SidebarUser = {
   email: string;
   role: string;
   organization: string;
+};
+
+export type SidebarSignals = {
+  livePulseValue: string;
+  livePulseSubtitle: string;
+  buyerPressureValue: string;
+  buyerPressureSubtitle: string;
 };
 
 const iconMap = {
@@ -58,7 +64,15 @@ function getInitials(name: string) {
     .join("");
 }
 
-export function AppShell({ children, user }: { children: React.ReactNode; user: SidebarUser | null }) {
+export function AppShell({
+  children,
+  user,
+  signals
+}: {
+  children: React.ReactNode;
+  user: SidebarUser | null;
+  signals: SidebarSignals;
+}) {
   const pathname = usePathname();
 
   return (
@@ -73,13 +87,13 @@ export function AppShell({ children, user }: { children: React.ReactNode; user: 
           <div className="sidebar-meta">
             <div className="sidebar-meta-card">
               <div className="text-[12px] uppercase tracking-[0.12em] text-emerald-100/85">Live pulse</div>
-              <strong className="mt-2 block text-2xl">128 orders</strong>
-              <div className="mt-1.5 text-sm text-stone-100/70">queued across 3 locations today</div>
+              <strong className="mt-2 block text-2xl">{signals.livePulseValue}</strong>
+              <div className="mt-1.5 text-sm text-stone-100/70">{signals.livePulseSubtitle}</div>
             </div>
             <div className="sidebar-meta-card">
               <div className="text-[12px] uppercase tracking-[0.12em] text-orange-100/85">Buyer pressure</div>
-              <strong className="mt-2 block text-2xl">18 low SKUs</strong>
-              <div className="mt-1.5 text-sm text-stone-100/70">6 need immediate replenishment</div>
+              <strong className="mt-2 block text-2xl">{signals.buyerPressureValue}</strong>
+              <div className="mt-1.5 text-sm text-stone-100/70">{signals.buyerPressureSubtitle}</div>
             </div>
           </div>
         </div>
@@ -111,13 +125,7 @@ export function AppShell({ children, user }: { children: React.ReactNode; user: 
           })}
         </nav>
         <div className="mt-6">
-          <form action={signOutAction}>
-            <button className="nav-link w-full" type="submit">
-              <LogOut size={16} />
-              <span>Logout</span>
-              <span className="nav-dot" />
-            </button>
-          </form>
+          <LogoutButton />
         </div>
       </aside>
       <main className="app-content">
@@ -126,4 +134,3 @@ export function AppShell({ children, user }: { children: React.ReactNode; user: 
     </div>
   );
 }
-

@@ -51,10 +51,33 @@ async function getViewerContext() {
 }
 
 export default async function DashboardPage() {
-  const [{ kpis, lowStock, movements, orders, purchaseOrders, reportCards }, viewer] = await Promise.all([
+  const [{ kpis, lowStock, movements, orders, purchaseOrders }, viewer] = await Promise.all([
     getDashboardData(),
     getViewerContext()
   ]);
+
+  const activeOrders = orders.filter((order) => order.status === "Pending" || order.status === "Picking" || order.status === "Packed").length;
+  const openPurchaseOrders = purchaseOrders.filter((purchaseOrder) => purchaseOrder.status !== "Received").length;
+  const inboundMovements = movements.filter((movement) => movement.quantity.startsWith("+")).length;
+
+  const signalCards = [
+    {
+      title: "Fulfillment pressure",
+      body: activeOrders > 0
+        ? `${activeOrders} orders are still in motion across pending, picking, or packed states and need active coordination.`
+        : "No active fulfillment bottlenecks are visible right now, so the outbound queue is under control."
+    },
+    {
+      title: "Replenishment exposure",
+      body: lowStock.length > 0
+        ? `${lowStock.length} low-stock SKUs are being balanced against ${openPurchaseOrders} open purchase orders, so buying decisions remain the main risk lever.`
+        : `Stock is currently healthy, with ${openPurchaseOrders} purchase orders still open for planned replenishment.`
+    },
+    {
+      title: "Ledger tempo",
+      body: `${movements.length} recent stock events are visible in the movement ledger, including ${inboundMovements} positive receipts or adjustments.`
+    }
+  ];
 
   return (
     <>
@@ -155,9 +178,9 @@ export default async function DashboardPage() {
             ]}
           />
         </SectionCard>
-        <SectionCard title="Operational signals" subtitle="The dashboard is organized around action, not disconnected widgets.">
+        <SectionCard title="Operational signals" subtitle="Live summaries generated from the current organization&apos;s activity.">
           <div className="note-stack">
-            {reportCards.map((card) => (
+            {signalCards.map((card) => (
               <div key={card.title} className="note-card">
                 <h3 className="m-0 text-[1.15rem]">{card.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-stone-600">{card.body}</p>

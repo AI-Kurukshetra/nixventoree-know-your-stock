@@ -1,5 +1,6 @@
-import { AppShell, type SidebarUser } from "@/components/app-shell/app-shell";
+import { AppShell, type SidebarSignals, type SidebarUser } from "@/components/app-shell/app-shell";
 import { hasPublicSupabaseEnv } from "@/lib/db/env";
+import { getDashboardData } from "@/lib/repositories/ops";
 import { createClient } from "@/lib/supabase/server";
 
 async function getSidebarUser(): Promise<SidebarUser | null> {
@@ -51,7 +52,30 @@ export default async function AuthenticatedLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const sidebarUser = await getSidebarUser();
+  const [sidebarUser, dashboardData] = await Promise.all([getSidebarUser(), getDashboardData()]);
 
-  return <AppShell user={sidebarUser}>{children}</AppShell>;
+  const activeOrders = dashboardData.orders.filter(
+    (order) => order.status === "Pending" || order.status === "Picking" || order.status === "Packed"
+  ).length;
+  const activeOrderWarehouses = new Set(
+    dashboardData.purchaseOrders
+      .map((purchaseOrder) => purchaseOrder.warehouse)
+      .filter((warehouse) => warehouse && warehouse !== "Unassigned")
+  ).size;
+  const lowStockCount = dashboardData.lowStock.length;
+  const urgentLowStockCount = dashboardData.lowStock.filter((product) => product.available === 0).length;
+
+  const sidebarSignals: SidebarSignals = {
+    livePulseValue: `${activeOrders} orders`,
+    livePulseSubtitle: `active across ${Math.max(activeOrderWarehouses, 1)} locations today`,
+    buyerPressureValue: `${lowStockCount} low SKUs`,
+    buyerPressureSubtitle:
+      urgentLowStockCount > 0 ? `${urgentLowStockCount} need immediate replenishment` : "No stockouts requiring immediate replenishment"
+  };
+
+  return (
+    <AppShell user={sidebarUser} signals={sidebarSignals}>
+      {children}
+    </AppShell>
+  );
 }
