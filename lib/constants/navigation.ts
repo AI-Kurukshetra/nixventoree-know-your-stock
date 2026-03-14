@@ -8,7 +8,6 @@ export const navigation = [
   { href: "/suppliers", label: "Suppliers" },
   { href: "/warehouses", label: "Warehouses" },
   { href: "/returns", label: "Returns" },
-  { href: "/reports/inventory", label: "Reports" },
   { href: "/settings/organization", label: "Settings" }
 ] as const;
 

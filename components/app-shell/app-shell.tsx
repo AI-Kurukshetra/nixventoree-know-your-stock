@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import {
   Boxes,
   Building2,
-  ClipboardList,
   Factory,
   LayoutDashboard,
   Mail,
@@ -47,7 +46,6 @@ const iconMap = {
   "/suppliers": Truck,
   "/warehouses": Factory,
   "/returns": RotateCcw,
-  "/reports/inventory": ClipboardList,
   "/settings/organization": Settings
 } as const;
 
