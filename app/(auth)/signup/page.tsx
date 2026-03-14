@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PageHeader } from "@/components/shared/page-header";
 import { signupAction } from "@/app/(auth)/actions";
 
@@ -11,6 +12,10 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
   return (
     <main className="auth-shell">
       <div className="auth-card">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <Link className="button-secondary" href="/">Back to home</Link>
+          <Link className="text-sm font-semibold text-teal-800 underline-offset-4 hover:underline" href="/login">Already have an account?</Link>
+        </div>
         <PageHeader
           eyebrow="Auth"
           title="Create workspace"

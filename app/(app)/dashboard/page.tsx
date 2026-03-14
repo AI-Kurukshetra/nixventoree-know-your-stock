@@ -61,10 +61,10 @@ export default async function DashboardPage() {
       <PageHeader
         eyebrow="Operations"
         title="Command center"
-        description="A judge-facing overview of stock health, inbound buying pressure, and fulfillment activity across the seeded logistics network."
+        description="Monitor stock health, replenishment pressure, and fulfillment throughput from one operational surface."
         actions={
           <>
-            <button className="button-secondary" type="button">Share demo</button>
+            <button className="button-secondary" type="button">Export snapshot</button>
             <Link className="button-primary" href="/purchase-orders">Create purchase order</Link>
           </>
         }
@@ -91,15 +91,15 @@ export default async function DashboardPage() {
           <div className="relative z-10">
             <div className="eyebrow text-emerald-200">Today&apos;s story</div>
             <h2 className="mt-2 max-w-[700px] text-[3.15rem] leading-[0.92] xs:text-[3.6rem] sm:text-[4rem]">
-              Your supply chain is under control, but {lowStock.length} SKUs need immediate buying action.
+              Your supply chain is stable, but {lowStock.length} SKUs need immediate replenishment attention.
             </h2>
             <p className="mt-4 max-w-[700px] text-[1rem] leading-7 text-stone-50/80 sm:text-[1.05rem]">
-              Nixventoree turns inventory, purchasing, and fulfillment into one clean operating surface so judges can immediately see the business value of the workflow.
+              Nixventoree brings inventory, purchasing, and fulfillment into one operational control layer so teams can react quickly and keep stock moving.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <div className="button-ghost"><RadioTower size={16} /> Realtime inventory visibility</div>
               <div className="button-ghost"><TriangleAlert size={16} /> {lowStock.length} low-stock alerts active</div>
-              <div className="button-ghost"><Sparkles size={16} /> Demo workspace pre-populated</div>
+              <div className="button-ghost"><Sparkles size={16} /> Cross-functional workflow coordination</div>
             </div>
           </div>
           <div className="relative z-10 grid gap-3.5">
@@ -115,21 +115,21 @@ export default async function DashboardPage() {
                 <span className="text-sm text-stone-50/70">POs actively moving</span>
               </div>
               <div className="metric-chip">
-                <span className="text-[12px] uppercase tracking-[0.12em] text-stone-50/70">Returns</span>
+                <span className="text-[12px] uppercase tracking-[0.12em] text-stone-50/70">Ledger</span>
                 <strong className="mt-2 block text-[1.65rem]">{movements.length}</strong>
-                <span className="text-sm text-stone-50/70">recent ledger events</span>
+                <span className="text-sm text-stone-50/70">recent stock events</span>
               </div>
             </div>
             <div className="rounded-[24px] border border-white/10 bg-white/8 p-[18px]">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <div className="text-[12px] uppercase tracking-[0.12em] text-emerald-100">Judge hook</div>
-                  <strong className="mt-2 block text-[1.75rem]">The app feels busy on first load</strong>
+                  <div className="text-[12px] uppercase tracking-[0.12em] text-emerald-100">Operational focus</div>
+                  <strong className="mt-2 block text-[1.75rem]">One workspace for inventory and order flow</strong>
                 </div>
                 <ArrowUpRight size={24} />
               </div>
               <p className="mt-3 leading-7 text-stone-50/75">
-                Every key page ships with realistic rows, stock signals, purchase orders, and movement history so the product reads like a live system.
+                Products, purchase orders, movement history, and customer demand stay connected so operators can act without bouncing across disconnected tools.
               </p>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default async function DashboardPage() {
             ]}
           />
         </SectionCard>
-        <SectionCard title="What the judges should notice" subtitle="The dashboard tells a business story instead of listing disconnected widgets.">
+        <SectionCard title="Operational signals" subtitle="The dashboard is organized around action, not disconnected widgets.">
           <div className="note-stack">
             {reportCards.map((card) => (
               <div key={card.title} className="note-card">

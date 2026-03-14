@@ -4,7 +4,7 @@ const highlights = [
   "Multi-location inventory visibility",
   "Reorder recommendations that close the buying loop",
   "Fulfillment, purchasing, and returns in one operational shell",
-  "Seeded demo workspace so the first impression feels alive"
+  "A populated control layer that is useful from the first sign-in"
 ];
 
 export default function MarketingHomePage() {
@@ -18,10 +18,10 @@ export default function MarketingHomePage() {
               Know your stock. Control your orders.
             </h1>
             <p className="mt-4 max-w-[720px] text-[1rem] leading-8 text-stone-50/80 sm:text-[1.1rem]">
-              Nixventoree combines inventory, purchasing, fulfillment, and reporting into a visually rich, responsive product that feels populated on the first click.
+              Nixventoree combines inventory, purchasing, fulfillment, and reporting into a visually rich, responsive product that feels operational from the first click.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link className="button-primary" href="/dashboard">Open demo workspace</Link>
+              <Link className="button-primary" href="/dashboard">Open workspace</Link>
               <Link className="button-secondary" href="/pricing">View pricing</Link>
             </div>
           </div>
@@ -31,7 +31,7 @@ export default function MarketingHomePage() {
                 <div className={index % 2 === 0 ? "text-[12px] uppercase tracking-[0.12em] text-emerald-100" : "text-[12px] uppercase tracking-[0.12em] text-orange-100"}>Capability</div>
                 <strong className="mt-3 block text-2xl">{item}</strong>
                 <p className="mt-2 text-sm leading-6 text-stone-50/75">
-                  Built for a convincing hackathon walkthrough instead of a blank admin shell.
+                  Designed for fast-moving operators who need clear stock, purchasing, and fulfillment signals.
                 </p>
               </div>
             ))}

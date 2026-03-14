@@ -13,6 +13,8 @@ const badgeMap: Record<string, string> = {
   Sent: "badge-warning",
   "Partially received": "badge-warning",
   Received: "badge-success",
+  Active: "badge-success",
+  Prospect: "badge-neutral",
   Requested: "badge-warning",
   Approved: "badge-neutral",
   Refunded: "badge-success"
@@ -21,3 +23,4 @@ const badgeMap: Record<string, string> = {
 export function StatusBadge({ value }: { value: string }) {
   return <span className={cn("badge", badgeMap[value] ?? "badge-neutral")}>{value}</span>;
 }
+

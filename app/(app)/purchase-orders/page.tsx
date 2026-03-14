@@ -1,10 +1,10 @@
 import { PurchaseOrderForm } from "@/components/purchase-orders/purchase-order-form";
 import { ModulePage } from "@/components/shared/module-page";
-import { sendPurchaseOrderAction } from "./actions";
+import { receivePurchaseOrderAction, sendPurchaseOrderAction } from "./actions";
 import { getPurchaseOrderFormOptions, getPurchaseOrdersData } from "@/lib/repositories/ops";
 
 type PurchaseOrdersPageProps = {
-  searchParams?: Promise<{ created?: string; sent?: string; error?: string }>;
+  searchParams?: Promise<{ created?: string; sent?: string; received?: string; error?: string }>;
 };
 
 export default async function PurchaseOrdersPage({ searchParams }: PurchaseOrdersPageProps) {
@@ -14,6 +14,7 @@ export default async function PurchaseOrdersPage({ searchParams }: PurchaseOrder
     getPurchaseOrderFormOptions()
   ]);
   const draftPurchaseOrders = purchaseOrders.filter((purchaseOrder) => purchaseOrder.status === "Draft");
+  const sentPurchaseOrders = purchaseOrders.filter((purchaseOrder) => purchaseOrder.status === "Sent");
 
   return (
     <div className="grid gap-5">
@@ -25,6 +26,11 @@ export default async function PurchaseOrdersPage({ searchParams }: PurchaseOrder
       {params.sent ? (
         <div className="rounded-[24px] border border-sky-200 bg-sky-50 px-5 py-4 text-sm font-semibold text-sky-900">
           {params.sent} moved from Draft to Sent.
+        </div>
+      ) : null}
+      {params.received ? (
+        <div className="rounded-[24px] border border-teal-200 bg-teal-50 px-5 py-4 text-sm font-semibold text-teal-900">
+          {params.received} received successfully. Inventory and movement history were updated.
         </div>
       ) : null}
       {params.error ? (
@@ -39,7 +45,7 @@ export default async function PurchaseOrdersPage({ searchParams }: PurchaseOrder
         <section className="surface p-5">
           <div className="surface-header">
             <h2 className="surface-title">Draft purchase orders</h2>
-            <p className="surface-subtitle">Promote drafts into a sent state so the purchasing workflow feels real during the demo.</p>
+            <p className="surface-subtitle">Promote drafts into a sent state so buyers can move replenishment into execution.</p>
           </div>
           <div className="grid gap-3">
             {draftPurchaseOrders.map((purchaseOrder) => (
@@ -51,6 +57,29 @@ export default async function PurchaseOrdersPage({ searchParams }: PurchaseOrder
                 <form action={sendPurchaseOrderAction}>
                   <input type="hidden" name="purchaseOrderId" value={purchaseOrder.id} />
                   <button className="button-primary" type="submit">Send PO</button>
+                </form>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {sentPurchaseOrders.length > 0 ? (
+        <section className="surface p-5">
+          <div className="surface-header">
+            <h2 className="surface-title">Sent purchase orders</h2>
+            <p className="surface-subtitle">Receive supplier shipments back into inventory to complete the replenishment loop.</p>
+          </div>
+          <div className="grid gap-3">
+            {sentPurchaseOrders.map((purchaseOrder) => (
+              <div key={purchaseOrder.id} className="flex flex-wrap items-center justify-between gap-3 rounded-[20px] border border-stone-900/8 bg-white/65 p-4">
+                <div>
+                  <div className="text-sm font-bold text-stone-900">{purchaseOrder.number}</div>
+                  <div className="mt-1 text-sm text-stone-600">{purchaseOrder.supplier} to {purchaseOrder.warehouse}</div>
+                </div>
+                <form action={receivePurchaseOrderAction}>
+                  <input type="hidden" name="purchaseOrderId" value={purchaseOrder.id} />
+                  <button className="button-primary" type="submit">Receive PO</button>
                 </form>
               </div>
             ))}
@@ -74,10 +103,11 @@ export default async function PurchaseOrdersPage({ searchParams }: PurchaseOrder
         ]}
         notes={[
           "Purchase orders now start with a real variant line item instead of only header metadata.",
-          "Lead time and reorder quantity belong on the variant and supplier mapping.",
-          "The next logical step after Send is Receive, which should write inventory movements and on-hand stock."
+          "Sent purchase orders can now be received into inventory, which updates on-hand stock and movement history.",
+          "The next logical step after Receive is partial receiving, discrepancy handling, and PO detail views."
         ]}
       />
     </div>
   );
 }
+

@@ -2,7 +2,7 @@
 
 Know your stock. Control your orders.
 
-This repository contains the hackathon MVP scaffold for Nixventoree:
+This repository contains the MVP scaffold for Nixventoree:
 
 - Next.js App Router page structure
 - Supabase client placeholders and middleware

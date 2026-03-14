@@ -102,6 +102,72 @@ export async function signupAction(formData: FormData) {
     errorRedirect("/signup", profileError.message);
   }
 
+  const starterCategoriesResult = await admin.from("categories").insert([
+    { organization_id: organization.id, name: "Drinkware", slug: "drinkware" },
+    { organization_id: organization.id, name: "Bags", slug: "bags" },
+    { organization_id: organization.id, name: "Electronics", slug: "electronics" },
+    { organization_id: organization.id, name: "Bundles", slug: "bundles" }
+  ]);
+
+  if (starterCategoriesResult.error) {
+    await admin.from("profiles").delete().eq("id", user.id);
+    await admin.from("roles").delete().eq("id", role.id);
+    await admin.from("organizations").delete().eq("id", organization.id);
+    await admin.auth.admin.deleteUser(user.id);
+    errorRedirect("/signup", starterCategoriesResult.error.message);
+  }
+
+  const starterWarehouseResult = await admin.from("warehouses").insert({
+    organization_id: organization.id,
+    name: "Main Warehouse",
+    code: "MAIN",
+    city: null,
+    state: null,
+    country: "US",
+    is_default: true
+  });
+
+  if (starterWarehouseResult.error) {
+    await admin.from("profiles").delete().eq("id", user.id);
+    await admin.from("roles").delete().eq("id", role.id);
+    await admin.from("organizations").delete().eq("id", organization.id);
+    await admin.auth.admin.deleteUser(user.id);
+    errorRedirect("/signup", starterWarehouseResult.error.message);
+  }
+
+  const starterSupplierResult = await admin.from("suppliers").insert({
+    organization_id: organization.id,
+    name: `${organizationName} Starter Supplier`,
+    email: null,
+    lead_time_days: 7,
+    minimum_order_value: 0,
+    currency: "USD",
+    status: "active"
+  });
+
+  if (starterSupplierResult.error) {
+    await admin.from("profiles").delete().eq("id", user.id);
+    await admin.from("roles").delete().eq("id", role.id);
+    await admin.from("organizations").delete().eq("id", organization.id);
+    await admin.auth.admin.deleteUser(user.id);
+    errorRedirect("/signup", starterSupplierResult.error.message);
+  }
+
+  const starterCustomerResult = await admin.from("customers").insert({
+    organization_id: organization.id,
+    name: `${organizationName} First Customer`,
+    email: null,
+    company_name: organizationName
+  });
+
+  if (starterCustomerResult.error) {
+    await admin.from("profiles").delete().eq("id", user.id);
+    await admin.from("roles").delete().eq("id", role.id);
+    await admin.from("organizations").delete().eq("id", organization.id);
+    await admin.auth.admin.deleteUser(user.id);
+    errorRedirect("/signup", starterCustomerResult.error.message);
+  }
+
   const supabase = await createServerSupabaseClient();
   const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
 

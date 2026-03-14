@@ -1,4 +1,4 @@
-﻿import { ModulePage } from "@/components/shared/module-page";
+import { ModulePage } from "@/components/shared/module-page";
 import { movements } from "@/lib/demo-data";
 
 export default function InventoryMovementsPage() {
@@ -17,10 +17,11 @@ export default function InventoryMovementsPage() {
         { key: "actor", label: "Actor" }
       ]}
       notes={[
-        "Use this screen to debug discrepancies quickly during the hackathon demo.",
+        "Use this screen to investigate discrepancies quickly across receiving, fulfillment, and adjustments.",
         "Keep reference links from movement rows back to orders, POs, returns, and counts.",
         "Realtime subscriptions fit naturally here."
       ]}
     />
   );
 }
+

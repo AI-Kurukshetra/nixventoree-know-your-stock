@@ -1,5 +1,6 @@
 "use client";
 
+import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -16,7 +17,8 @@ import {
   Settings,
   ShoppingCart,
   Truck,
-  UserRound
+  UserRound,
+  Users
 } from "lucide-react";
 import { signOutAction } from "@/app/(auth)/actions";
 import { navigation } from "@/lib/constants/navigation";
@@ -34,6 +36,7 @@ const iconMap = {
   "/products": Package,
   "/inventory": Boxes,
   "/orders": ShoppingCart,
+  "/customers": Users,
   "/purchase-orders": Receipt,
   "/suppliers": Truck,
   "/warehouses": Factory,
@@ -65,7 +68,7 @@ export function AppShell({ children, user }: { children: React.ReactNode; user: 
           <div className="eyebrow text-emerald-200">Nixventoree</div>
           <div className="mt-2 text-[2rem] font-black leading-none">Know your stock. Control your orders.</div>
           <p className="mt-3 mb-0 leading-7 text-stone-100/75">
-            A judge-facing demo workspace designed to feel like a live logistics control room, not an empty admin template.
+            A unified operations workspace for inventory, purchasing, fulfillment, and supplier coordination across every location.
           </p>
           <div className="sidebar-meta">
             <div className="sidebar-meta-card">
@@ -99,7 +102,7 @@ export function AppShell({ children, user }: { children: React.ReactNode; user: 
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
 
             return (
-              <Link key={item.href} href={item.href} className={cn("nav-link", active && "nav-link-active")}>
+              <Link key={item.href} href={item.href as Route} className={cn("nav-link", active && "nav-link-active")}>
                 <Icon size={16} />
                 <span>{item.label}</span>
                 <span className="nav-dot" />
@@ -123,3 +126,4 @@ export function AppShell({ children, user }: { children: React.ReactNode; user: 
     </div>
   );
 }
+

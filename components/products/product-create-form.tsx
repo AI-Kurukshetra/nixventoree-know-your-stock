@@ -14,6 +14,7 @@ type ProductCreateFormProps = {
 
 export function ProductCreateForm({ categories, suppliers, warehouses }: ProductCreateFormProps) {
   const [state, formAction, pending] = useActionState<ProductActionState, FormData>(createProductAction, initialProductState);
+  const values = state.values;
 
   return (
     <form action={formAction} className="surface grid gap-4 p-5">
@@ -28,15 +29,15 @@ export function ProductCreateForm({ categories, suppliers, warehouses }: Product
       <div className="grid gap-3 md:grid-cols-2">
         <label className="grid gap-2 text-sm font-semibold text-stone-700">
           Product name
-          <input className="auth-input" name="name" required placeholder="Trail Bottle 32oz" />
+          <input className="auth-input" name="name" required placeholder="Trail Bottle 32oz" defaultValue={values.name} />
         </label>
         <label className="grid gap-2 text-sm font-semibold text-stone-700">
           SKU
-          <input className="auth-input" name="sku" required placeholder="NX-BTL-32-SGE" />
+          <input className="auth-input" name="sku" required placeholder="NX-BTL-32-SGE" defaultValue={values.sku} />
         </label>
         <label className="grid gap-2 text-sm font-semibold text-stone-700">
           Category
-          <select className="auth-input" name="categoryId" required defaultValue="">
+          <select className="auth-input" name="categoryId" required defaultValue={values.categoryId}>
             <option value="" disabled>Select category</option>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>{category.label}</option>
@@ -45,7 +46,7 @@ export function ProductCreateForm({ categories, suppliers, warehouses }: Product
         </label>
         <label className="grid gap-2 text-sm font-semibold text-stone-700">
           Preferred supplier
-          <select className="auth-input" name="supplierId" defaultValue="">
+          <select className="auth-input" name="supplierId" defaultValue={values.supplierId}>
             <option value="">None</option>
             {suppliers.map((supplier) => (
               <option key={supplier.id} value={supplier.id}>{supplier.label}</option>
@@ -54,27 +55,27 @@ export function ProductCreateForm({ categories, suppliers, warehouses }: Product
         </label>
         <label className="grid gap-2 text-sm font-semibold text-stone-700">
           Sale price
-          <input className="auth-input" name="salePrice" type="number" min="0" step="0.01" placeholder="39.00" />
+          <input className="auth-input" name="salePrice" type="number" min="0" step="0.01" placeholder="39.00" defaultValue={values.salePrice} />
         </label>
         <label className="grid gap-2 text-sm font-semibold text-stone-700">
           Cost price
-          <input className="auth-input" name="costPrice" type="number" min="0" step="0.01" placeholder="12.50" />
+          <input className="auth-input" name="costPrice" type="number" min="0" step="0.01" placeholder="12.50" defaultValue={values.costPrice} />
         </label>
         <label className="grid gap-2 text-sm font-semibold text-stone-700">
           Reorder point
-          <input className="auth-input" name="reorderPoint" type="number" min="0" step="1" placeholder="45" />
+          <input className="auth-input" name="reorderPoint" type="number" min="0" step="1" placeholder="45" defaultValue={values.reorderPoint} />
         </label>
         <label className="grid gap-2 text-sm font-semibold text-stone-700">
           Reorder quantity
-          <input className="auth-input" name="reorderQuantity" type="number" min="0" step="1" placeholder="140" />
+          <input className="auth-input" name="reorderQuantity" type="number" min="0" step="1" placeholder="140" defaultValue={values.reorderQuantity} />
         </label>
         <label className="grid gap-2 text-sm font-semibold text-stone-700">
           Initial stock
-          <input className="auth-input" name="initialStock" type="number" min="0" step="1" placeholder="0" />
+          <input className="auth-input" name="initialStock" type="number" min="0" step="1" placeholder="0" defaultValue={values.initialStock} />
         </label>
         <label className="grid gap-2 text-sm font-semibold text-stone-700">
           Stock warehouse
-          <select className="auth-input" name="warehouseId" defaultValue="">
+          <select className="auth-input" name="warehouseId" defaultValue={values.warehouseId}>
             <option value="">Leave unstocked</option>
             {warehouses.map((warehouse) => (
               <option key={warehouse.id} value={warehouse.id}>{warehouse.label}</option>
@@ -83,11 +84,11 @@ export function ProductCreateForm({ categories, suppliers, warehouses }: Product
         </label>
         <label className="grid gap-2 text-sm font-semibold text-stone-700 md:col-span-2">
           Brand
-          <input className="auth-input" name="brand" placeholder="Nixventoree Goods" />
+          <input className="auth-input" name="brand" placeholder="Nixventoree Goods" defaultValue={values.brand} />
         </label>
         <label className="grid gap-2 text-sm font-semibold text-stone-700 md:col-span-2">
           Description
-          <textarea className="auth-input min-h-[110px]" name="description" placeholder="A premium insulated bottle for all-day carry." />
+          <textarea className="auth-input min-h-[110px]" name="description" placeholder="A premium insulated bottle for all-day carry." defaultValue={values.description} />
         </label>
       </div>
 

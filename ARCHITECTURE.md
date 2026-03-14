@@ -4,7 +4,7 @@
 
 Nixventoree is a multi-tenant inventory and order management platform for product businesses.
 
-The current hackathon build is designed to demonstrate:
+The current build is designed to demonstrate:
 
 - real-time style inventory visibility
 - centralized order operations
@@ -45,7 +45,7 @@ Next.js App Router UI
   |       +--> Supabase Auth
   |       +--> Supabase Postgres
   |
-  +--> Demo data fallback for hackathon preview
+  +--> Demo data fallback for preview environments
 ```
 
 ## Core Architectural Decisions
@@ -82,7 +82,7 @@ Benefits:
 - simpler data access patterns
 - cleaner deployment on Vercel
 
-### 4. Demo-first UX for hackathon judging
+### 4. Demo-first UX for preview environments
 
 The current build includes seeded/demo content and fallback UI data so the app looks active immediately.
 
@@ -157,11 +157,11 @@ Frontend implementation note:
 
 - The UI is now driven by Tailwind utility classes and Tailwind-backed component classes in `app/globals.css`
 - Shared visual primitives live in `components/shared`
-- The app shell and dashboard are optimized for a hackathon demo-first presentation
+- The app shell and dashboard are optimized for a strong demo-first presentation
 
 ## Data Flow
 
-### Current hackathon mode
+### Current preview mode
 
 1. User opens the app
 2. Next.js pages render demo-backed UI
@@ -185,12 +185,12 @@ Current target:
 
 Why this is a good fit:
 
-- fast deployment for hackathon review
+- fast deployment for product review
 - managed Postgres and auth
 - low ops overhead
 - easy preview deployments
 
-## Non-Goals for the Hackathon MVP
+## Non-Goals for the Current MVP
 
 These are intentionally not fully built yet:
 
@@ -207,3 +207,5 @@ These are intentionally not fully built yet:
 3. Add protected route behavior by organization and role
 4. Connect order, purchase order, and inventory mutations
 5. Add seed automation for richer demo datasets
+
+

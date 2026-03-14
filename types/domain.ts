@@ -44,6 +44,15 @@ export type Supplier = {
   score: string;
 };
 
+export type Customer = {
+  id: string;
+  name: string;
+  company: string;
+  email: string;
+  orders: number;
+  status: "Active" | "Prospect";
+};
+
 export type Warehouse = {
   id: string;
   name: string;
@@ -68,4 +77,6 @@ export type Movement = {
   quantity: string;
   actor: string;
 };
+
+
 

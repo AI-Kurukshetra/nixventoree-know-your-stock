@@ -11,7 +11,7 @@ import {
   suppliers as demoSuppliers,
   warehouses as demoWarehouses
 } from "@/lib/demo-data";
-import type { Kpi, Movement, Order, Product, PurchaseOrder, ReturnCase, Supplier, Warehouse } from "@/types/domain";
+import type { Customer, Kpi, Movement, Order, Product, PurchaseOrder, ReturnCase, Supplier, Warehouse } from "@/types/domain";
 
 type PurchaseOrderOption = {
   id: string;
@@ -23,6 +23,12 @@ type PurchaseOrderVariantOption = {
   label: string;
   defaultCost: number;
   supplierId: string | null;
+};
+
+type OrderVariantOption = {
+  id: string;
+  label: string;
+  defaultPrice: number;
 };
 
 type DashboardData = {
@@ -142,6 +148,86 @@ export async function getOrdersData(): Promise<Order[]> {
     }));
   } catch {
     return [];
+  }
+}
+
+export async function getCustomersData(): Promise<Customer[]> {
+  if (!hasPublicSupabaseEnv()) {
+    return [
+      { id: "70000000-0000-0000-0000-000000000001", name: "Harbor Goods", company: "Harbor Goods", email: "buying@harborgoods.demo", orders: 1, status: "Active" },
+      { id: "70000000-0000-0000-0000-000000000002", name: "Mason Lee", company: "Direct customer", email: "mason.lee@example.com", orders: 1, status: "Active" },
+      { id: "70000000-0000-0000-0000-000000000003", name: "Juniper Home", company: "Juniper Home", email: "ops@juniperhome.demo", orders: 1, status: "Active" }
+    ];
+  }
+
+  try {
+    const supabase = await createServerSupabaseClient();
+    const [{ data: customers, error }, { data: orders }] = await Promise.all([
+      supabase.from("customers").select("id, name, email, company_name").order("created_at", { ascending: false }).limit(20),
+      supabase.from("orders").select("customer_id")
+    ]);
+
+    if (error || !customers) {
+      return [];
+    }
+
+    const orderCounts = new Map<string, number>();
+    (orders ?? []).forEach((order) => {
+      const key = order.customer_id ?? "";
+      orderCounts.set(key, (orderCounts.get(key) ?? 0) + 1);
+    });
+
+    return customers.map((customer) => ({
+      id: customer.id,
+      name: customer.name,
+      company: customer.company_name ?? "Direct customer",
+      email: customer.email ?? "No email",
+      orders: orderCounts.get(customer.id) ?? 0,
+      status: (orderCounts.get(customer.id) ?? 0) > 0 ? "Active" : "Prospect"
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export async function getOrderFormOptions(): Promise<{
+  customers: PurchaseOrderOption[];
+  variants: OrderVariantOption[];
+}> {
+  if (!hasPublicSupabaseEnv()) {
+    return {
+      customers: [
+        { id: "70000000-0000-0000-0000-000000000001", label: "Harbor Goods" },
+        { id: "70000000-0000-0000-0000-000000000002", label: "Mason Lee" },
+        { id: "70000000-0000-0000-0000-000000000003", label: "Juniper Home" }
+      ],
+      variants: demoProducts.map((product) => ({ id: product.id, label: `${product.name} (${product.sku})`, defaultPrice: 0 }))
+    };
+  }
+
+  try {
+    const supabase = await createServerSupabaseClient();
+    const [{ data: customers }, { data: variants }, { data: products }] = await Promise.all([
+      supabase.from("customers").select("id, name").order("name", { ascending: true }),
+      supabase.from("product_variants").select("id, sku, sale_price, product_id").order("sku", { ascending: true }),
+      supabase.from("products").select("id, name")
+    ]);
+
+    const productMap = new Map((products ?? []).map((product) => [product.id, product.name]));
+
+    return {
+      customers: (customers ?? []).map((customer) => ({ id: customer.id, label: customer.name })),
+      variants: (variants ?? []).map((variant) => ({
+        id: variant.id,
+        label: `${productMap.get(variant.product_id) ?? variant.sku} (${variant.sku})`,
+        defaultPrice: Number(variant.sale_price ?? 0)
+      }))
+    };
+  } catch {
+    return {
+      customers: [],
+      variants: []
+    };
   }
 }
 
@@ -419,3 +505,5 @@ export async function getProductFormOptions(): Promise<{
     };
   }
 }
+
+

@@ -5,39 +5,62 @@ import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient as createServerSupabaseClient } from "@/lib/supabase/server";
 import { hasPublicSupabaseEnv, hasServiceRoleEnv } from "@/lib/db/env";
-import type { ProductActionState } from "./action-state";
+import type { ProductActionState, ProductFormValues } from "./action-state";
 
 function slugify(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "product";
+}
+
+function buildValues(formData: FormData): ProductFormValues {
+  return {
+    name: String(formData.get("name") ?? "").trim(),
+    sku: String(formData.get("sku") ?? "").trim().toUpperCase(),
+    categoryId: String(formData.get("categoryId") ?? "").trim(),
+    supplierId: String(formData.get("supplierId") ?? "").trim(),
+    warehouseId: String(formData.get("warehouseId") ?? "").trim(),
+    salePrice: String(formData.get("salePrice") ?? "").trim(),
+    costPrice: String(formData.get("costPrice") ?? "").trim(),
+    reorderPoint: String(formData.get("reorderPoint") ?? "").trim(),
+    reorderQuantity: String(formData.get("reorderQuantity") ?? "").trim(),
+    initialStock: String(formData.get("initialStock") ?? "").trim(),
+    brand: String(formData.get("brand") ?? "").trim(),
+    description: String(formData.get("description") ?? "").trim()
+  };
 }
 
 export async function createProductAction(
   _prevState: ProductActionState,
   formData: FormData
 ): Promise<ProductActionState> {
+  const values = buildValues(formData);
+
   if (!hasPublicSupabaseEnv() || !hasServiceRoleEnv()) {
-    return { status: "error", message: "Configure Supabase public and service-role environment variables before creating products." };
+    return {
+      status: "error",
+      message: "Configure Supabase public and service-role environment variables before creating products.",
+      values
+    };
   }
 
-  const name = String(formData.get("name") ?? "").trim();
-  const sku = String(formData.get("sku") ?? "").trim().toUpperCase();
-  const categoryId = String(formData.get("categoryId") ?? "").trim();
-  const supplierId = String(formData.get("supplierId") ?? "").trim();
-  const warehouseId = String(formData.get("warehouseId") ?? "").trim();
-  const salePrice = Number(formData.get("salePrice") ?? 0);
-  const costPrice = Number(formData.get("costPrice") ?? 0);
-  const reorderPoint = Number(formData.get("reorderPoint") ?? 0);
-  const reorderQuantity = Number(formData.get("reorderQuantity") ?? 0);
-  const initialStock = Number(formData.get("initialStock") ?? 0);
-  const brand = String(formData.get("brand") ?? "").trim();
-  const description = String(formData.get("description") ?? "").trim();
+  const name = values.name;
+  const sku = values.sku;
+  const categoryId = values.categoryId;
+  const supplierId = values.supplierId;
+  const warehouseId = values.warehouseId;
+  const salePrice = Number(values.salePrice || 0);
+  const costPrice = Number(values.costPrice || 0);
+  const reorderPoint = Number(values.reorderPoint || 0);
+  const reorderQuantity = Number(values.reorderQuantity || 0);
+  const initialStock = Number(values.initialStock || 0);
+  const brand = values.brand;
+  const description = values.description;
 
   if (!name || !sku || !categoryId) {
-    return { status: "error", message: "Name, SKU, and category are required." };
+    return { status: "error", message: "Name, SKU, and category are required.", values };
   }
 
   if (initialStock > 0 && !warehouseId) {
-    return { status: "error", message: "Choose a warehouse when assigning initial stock." };
+    return { status: "error", message: "Choose a warehouse when assigning initial stock.", values };
   }
 
   const supabase = await createServerSupabaseClient();
@@ -47,7 +70,7 @@ export async function createProductAction(
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { status: "error", message: "You must be signed in to create a product." };
+    return { status: "error", message: "You must be signed in to create a product.", values };
   }
 
   const { data: profile, error: profileError } = await supabase
@@ -57,7 +80,7 @@ export async function createProductAction(
     .single();
 
   if (profileError || !profile) {
-    return { status: "error", message: profileError?.message ?? "Could not resolve your organization." };
+    return { status: "error", message: profileError?.message ?? "Could not resolve your organization.", values };
   }
 
   const slug = slugify(name);
@@ -80,7 +103,7 @@ export async function createProductAction(
     .single();
 
   if (productError || !product) {
-    return { status: "error", message: productError?.message ?? "Could not create product." };
+    return { status: "error", message: productError?.message ?? "Could not create product.", values };
   }
 
   const { data: variant, error: variantError } = await admin
@@ -99,7 +122,7 @@ export async function createProductAction(
     .single();
 
   if (variantError || !variant) {
-    return { status: "error", message: variantError?.message ?? "Could not create product variant." };
+    return { status: "error", message: variantError?.message ?? "Could not create product variant.", values };
   }
 
   if (initialStock > 0 && warehouseId) {
@@ -113,7 +136,7 @@ export async function createProductAction(
     });
 
     if (inventoryError) {
-      return { status: "error", message: inventoryError.message };
+      return { status: "error", message: inventoryError.message, values };
     }
   }
 

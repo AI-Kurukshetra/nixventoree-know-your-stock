@@ -20,7 +20,7 @@ export default async function ReturnsPage() {
       notes={[
         "Returns should not mutate stock until physical receipt and inspection are confirmed.",
         "Resolution state belongs at the line-item level for mixed outcomes.",
-        "This is a good place to demo restock vs discard logic."
+        "This is the right place to resolve restock vs discard decisions."
       ]}
     />
   );
